@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="chevron-container">
+    @if (item.hasChildren) {
+      @if (expanded) {
+        <i class="bi bi-chevron-down chevron"></i>
+      } @else {
+        <i class="bi bi-chevron-right chevron"></i>
+      }
+    }
+  </div>
+  <div class="icon-container">
+    @if (!!item.icon) {
+      <div [innerHTML]="item.icon" class="icon"></div>
+    } @else if (item.hasChildren && !item.extension) {
+      <i class="bi bi-folder icon"></i>
+    } @else if (hasExtension('properties')) {
+      <i class="bi bi-gear icon"></i>
+    } @else if (item.extension) {
+      <i class="bi bi-filetype-{{item.extension.replace('.', '')}} icon"></i>
+    }  @else {
+      <i class="bi bi-file-earmark icon"></i>
+    }
+  </div>
+</div>

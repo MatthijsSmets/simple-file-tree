@@ -6,16 +6,20 @@
 
 .chevron {
   font-size: 0.75rem;
+  display: flex;
+  align-items: center;
 }
 
 .icon {
   font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .chevron-container {
-  width: 16px;
-  display: flex;
-  align-items: center;
+  width: 12px;
 }
 
 .icon-container {

@@ -1,12 +1,16 @@
 import {Component, Input} from '@angular/core';
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {FileTreeItem} from "../models/file-tree-item";
 
 @Component({
   selector: 'app-tree-icon',
+  host: {
+
+  },
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './tree-icon.component.html',
   styleUrl: './tree-icon.component.css'

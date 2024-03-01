@@ -9,9 +9,6 @@ export class SelectItemService {
   private itemSelectedSubject: Subject<FileTreeItem> = new ReplaySubject(1);
   public itemSelectedObservable: Observable<FileTreeItem> = this.itemSelectedSubject.asObservable();
 
-  constructor() {
-  }
-
   nextItem(value: FileTreeItem): void {
     this.itemSelectedSubject.next(value);
   }

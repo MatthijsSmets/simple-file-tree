@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FileTreeOptions} from "../models/file-tree-options";
 import {NgForOf} from "@angular/common";
 import {TreeItemComponent} from "../tree-item/tree-item.component";
-import {FileTreeItem} from "../models/file-tree-item";
+import {CreateTreeItem, FileTreeItem} from "../models/file-tree-item";
 
 @Component({
   selector: 'app-tree',
@@ -14,14 +14,22 @@ import {FileTreeItem} from "../models/file-tree-item";
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.css'
 })
-export class TreeComponent {
-  @Input('data') public treeData: FileTreeItem[] = [];
+export class TreeComponent implements OnInit {
+  @Input('data') public treeData!: (Partial<CreateTreeItem> & Pick<CreateTreeItem, 'name'> & Record<string, unknown>)[];
   @Input({alias: 'options', required: false}) options: FileTreeOptions = {
     highlightOpenFolders: false
   };
   public static options: FileTreeOptions;
+  items: FileTreeItem[] = [];
 
-  constructor() {
+  ngOnInit(): void {
     TreeComponent.options = this.options;
+    this.createFileTreeItems();
+  }
+
+  createFileTreeItems(): void {
+    for (let treeDatum of this.treeData) {
+      this.items.push(FileTreeItem.fromJson(treeDatum))
+    }
   }
 }

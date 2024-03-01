@@ -1,6 +1,6 @@
 <div
   class="item"
-  [ngClass]="{'item-selected': item.currentlySelected, 'last-item': lastChild}"
+  [ngClass]="{'item-selected': item.currentlySelected, 'last-item': lastChild, 'no-children': !item.hasChildren}"
   (click)="onClick()">
   <app-tree-icon [item]="item" [expanded]="expanded"></app-tree-icon>
   <div class="item-name">{{ item.name }}</div>

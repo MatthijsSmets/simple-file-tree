@@ -3,15 +3,37 @@
   flex-direction: row;
   justify-items: center;
   padding: 0.125rem 0.35rem 0.125rem 0.125rem;
+  margin-bottom: 0.1rem;
   cursor: pointer;
   align-items: center;
   text-overflow: clip;
   width: fit-content;
   border-radius: 5px;
+  z-index: 10;
 
   &:hover {
     background-color: rgba(253,195,0,0.4);
   }
+}
+
+.item-vertical-line {
+  position: absolute;
+  width: 1px;
+  background-color: darkgrey;
+  left: 0.115rem;
+  bottom: 0.45rem;
+  top: -0.55rem;
+  z-index: -1;
+}
+
+.item-horizontal-line {
+  position: absolute;
+  height: 1px;
+  width: 1.27rem;
+  background-color: red;
+  left: 0.17rem;
+  top: 0.9rem;
+  z-index: -1;
 }
 
 .last-item {
@@ -25,22 +47,15 @@
   }
 }
 
+.item-selected-line {
+  background-color: red;
+}
+
 .item-child {
-  border-left: 1px solid darkgrey;
   margin-left: 0.35rem;
   padding-inline-start: 0.45rem;
   cursor: pointer;
-}
-
-.item-child-node {
-  display: flex;
-  flex-direction: row;
-  justify-items: center;
-  align-items: center;
-  border-left: 1px solid darkgray;
-  margin-inline-start: 0.335rem;
-  padding-inline-start: 0.75rem;
-  cursor: pointer;
+  position: relative;
 }
 
 .item-child-node-icon {
@@ -51,5 +66,5 @@
   margin-bottom: 0.25rem;
 }
 .no-children {
-  margin-left: 12px;
+  margin-left: 1rem;
 }

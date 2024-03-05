@@ -19,7 +19,7 @@ export class NgSimpleFileTree {
       name: 'helloworld',
       children: [{
         name: 'helloworld.xml',
-        icon: 'assets/plug-svgrepo-com (1).svg',
+        icon: 'assets/genetic-data-svgrepo-com.svg',
         children: [{name: 'adapter1a'}, {name: 'adapter1b'}]
       } as Child
       ]
@@ -29,5 +29,6 @@ export class NgSimpleFileTree {
   ];
   options: FileTreeOptions = {
     highlightOpenFolders: false,
+    folderBehaviourOnClick: 'both'
   }
 }

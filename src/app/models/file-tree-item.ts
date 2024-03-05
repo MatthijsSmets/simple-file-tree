@@ -2,8 +2,8 @@ export class FileTreeItem {
   name: string;
   path: string;
   hasChildren: boolean;
-
-  private constructor(name: string, children?: Child[], icon?: string, path?: string) {
+  private constructor(name: string, children?: Child[], icon?: string, path?: string, parent?: FileTreeItem, index?: number) {
+    this.index = index
     if (path) {
       this.path = path;
     } else {
@@ -19,19 +19,25 @@ export class FileTreeItem {
     if (children && children.length > 0) {
       this.createChildren(children);
     }
+    if (parent) {
+      this.parent = parent;
+    }
   }
 
   extension?: string;
   children?: FileTreeItem[];
   icon?: string;
+  parent?: FileTreeItem
+  index?: number;
 
   currentlySelected: boolean = false;
   expanded: boolean = false;
+  selectedChildIndex: number = -1
 
   private createChildren(children: Child[]): void {
     let newChildrenList: FileTreeItem[] = [];
     for (let child of children) {
-      newChildrenList.push(new FileTreeItem(child.name, child.children, child.icon, this.path + "/" + child.name));
+      newChildrenList.push(new FileTreeItem(child.name, child.children, child.icon, this.path + "/" + child.name, this));
     }
     this.children = newChildrenList;
   }

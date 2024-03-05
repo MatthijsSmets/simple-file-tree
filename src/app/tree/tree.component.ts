@@ -17,7 +17,8 @@ import {CreateTreeItem, FileTreeItem} from "../models/file-tree-item";
 export class TreeComponent implements OnInit {
   @Input('data') public treeData!: (Partial<CreateTreeItem> & Pick<CreateTreeItem, 'name'> & Record<string, unknown>)[];
   @Input({alias: 'options', required: false}) options: FileTreeOptions = {
-    highlightOpenFolders: false
+    highlightOpenFolders: false,
+    folderBehaviourOnClick: 'both'
   };
   public static options: FileTreeOptions;
   items: FileTreeItem[] = [];

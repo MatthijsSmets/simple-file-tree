@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { NgSimpleFileTree } from './app/ng-simple-file-tree.component';
+import { AppComponent } from './app/app.component';
 
-bootstrapApplication(NgSimpleFileTree, appConfig)
+bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TreeComponent } from './tree.component';
+import { NgSimpleFileTree } from './ng-simple-file-tree.component';
 
 describe('TreeComponent', () => {
-  let component: TreeComponent;
-  let fixture: ComponentFixture<TreeComponent>;
+  let component: NgSimpleFileTree;
+  let fixture: ComponentFixture<NgSimpleFileTree>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TreeComponent]
+      imports: [NgSimpleFileTree]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(TreeComponent);
+
+    fixture = TestBed.createComponent(NgSimpleFileTree);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

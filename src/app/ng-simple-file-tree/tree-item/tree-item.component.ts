@@ -1,20 +1,10 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {TreeIconComponent} from "../tree-icon/tree-icon.component";
+import {Component, Input, OnInit} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
-import {SelectItemService} from "../select-item.service";
-import {TreeComponent} from "../tree/tree.component";
-import {Subject} from "rxjs";
+import {SelectItemService} from "../../select-item.service";
+import {NgSimpleFileTree} from "../ng-simple-file-tree.component";
 
 @Component({
   selector: 'app-tree-item',
-  standalone: true,
-  imports: [
-    NgClass,
-    TreeIconComponent,
-    NgIf,
-    NgForOf
-  ],
   templateUrl: './tree-item.component.html',
   styleUrl: './tree-item.component.css'
 })
@@ -37,7 +27,7 @@ export class TreeItemComponent implements OnInit {
     this.selectItemService.itemSelectedObservable.subscribe((value: FileTreeItem): void => {
       if (!this.justClicked) {
         this.item.currentlySelected = value.path == this.item.path ||
-          (TreeComponent.options.highlightOpenFolders && this.getParentPath(value.path, value.name) == this.item.path);
+          (NgSimpleFileTree.options.highlightOpenFolders && this.getParentPath(value.path, value.name) == this.item.path);
         if (this.item.currentlySelected && this.item.parent) {
           this.item.parent.selectedChildIndex = this.index
         }
@@ -70,10 +60,10 @@ export class TreeItemComponent implements OnInit {
   }
 
   handleFolderClick() {
-    if (TreeComponent.options.folderBehaviourOnClick !== 'select') {
+    if (NgSimpleFileTree.options.folderBehaviourOnClick !== 'select') {
       this.expanded = !this.expanded;
     }
-    if (TreeComponent.options.folderBehaviourOnClick == 'both' || TreeComponent.options.folderBehaviourOnClick == 'select') {
+    if (NgSimpleFileTree.options.folderBehaviourOnClick == 'both' || NgSimpleFileTree.options.folderBehaviourOnClick == 'select') {
       this.item.currentlySelected = true;
     }
   }
@@ -87,7 +77,7 @@ export class TreeItemComponent implements OnInit {
   }
 
   onDoubleClick() {
-    if (TreeComponent.options.folderBehaviourOnClick == 'doubleClick') {
+    if (NgSimpleFileTree.options.folderBehaviourOnClick == 'doubleClick') {
 
     }
   }

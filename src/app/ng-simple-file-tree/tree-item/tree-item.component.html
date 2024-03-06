@@ -10,7 +10,7 @@
   @if (item.hasChildren) {
     <div class="child-container">
       <div class="item-child" *ngFor="let child of item.children; let last = last; let first = first; let index = index">
-        <div class="item-vertical-line" [ngClass]="{'item-selected-line': child.currentlySelected || item.selectedChildIndex > index}"></div>
+        <div class="item-vertical-line" [ngClass]="{'item-selected-line': child.currentlySelected || item.selectedChildIndex > index, 'item-vertical-line-extended': !first}"></div>
         <div *ngIf="child.currentlySelected" class="item-horizontal-line"></div>
         @if (last == first) {
           <app-tree-item [item]="child" [lastChild]="false" [index]="index"></app-tree-item>

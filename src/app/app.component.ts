@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {TreeComponent} from "./tree/tree.component";
-import {FileTreeOptions} from "./models/file-tree-options";
-import {Child} from "./models/file-tree-item";
+import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
+import {Child} from "./ng-simple-file-tree/models/child";
+import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.module";
 
 @Component({
   selector: 'ng-simple-file-tree',
   standalone: true,
-  imports: [RouterOutlet, TreeComponent],
-  templateUrl: './ng-simple-file-tree.component.html',
-  styleUrl: './ng-simple-file-tree.component.css'
+  imports: [RouterOutlet, NgSimpleFileTreeModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
-export class NgSimpleFileTree {
+export class AppComponent {
   title = 'file-tree';
 
   treeItems = [
@@ -21,7 +21,8 @@ export class NgSimpleFileTree {
         name: 'helloworld.xml',
         icon: 'assets/genetic-data-svgrepo-com.svg',
         children: [{name: 'adapter1a'}, {name: 'adapter1b'}]
-      } as Child
+      },
+        {name: 'settings.yml'} as Child
       ]
     },
     {name: 'helloworld.yml'},

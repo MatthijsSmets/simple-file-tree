@@ -1,3 +1,6 @@
+import {Child} from "./child";
+import {CreateTreeItem} from "./create-tree-item";
+
 export class FileTreeItem {
   name: string;
   path: string;
@@ -31,7 +34,7 @@ export class FileTreeItem {
   index?: number;
 
   currentlySelected: boolean = false;
-  expanded: boolean = false;
+  expanded: boolean = true;
   selectedChildIndex: number = -1
 
   private createChildren(children: Child[]): void {
@@ -50,17 +53,4 @@ export class FileTreeItem {
                          }: Partial<CreateTreeItem> & Pick<CreateTreeItem, 'name'> & Record<string, unknown>): FileTreeItem {
     return new FileTreeItem(name, children, icon, path);
   }
-}
-
-export type Child = {
-  name: string,
-  children: Child[],
-  icon?: string;
-}
-
-export type CreateTreeItem = {
-  name: string,
-  children?: Child[],
-  icon?: string;
-  path?: string;
 }

@@ -1,3 +1,11 @@
+* {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  --default-line-color: lightgrey;
+  --active-line-color: darkgrey;
+}
+
 .item {
   display: flex;
   flex-direction: row;
@@ -19,7 +27,7 @@
 .item-vertical-line {
   position: absolute;
   width: 1px;
-  background-color: darkgrey;
+  background-color: var(--default-line-color);
   left: 0.115rem;
   bottom: 0.45rem;
   top: -0.55rem;
@@ -30,7 +38,7 @@
   position: absolute;
   height: 1px;
   width: 1.34rem;
-  background-color: red;
+  background-color: var(--active-line-color);
   left: 0.12rem;
   top: 0.92rem;
   z-index: -1;
@@ -53,7 +61,7 @@
 }
 
 .item-selected-line {
-  background-color: red;
+  background-color: var(--active-line-color);
   z-index: -1;
 }
 
@@ -68,9 +76,11 @@
   margin-inline-start: 1.5rem;
   margin-inline-end: 0.25rem;
 }
+
 .child-container {
   margin-bottom: 0.25rem;
 }
+
 .no-children {
   margin-left: 1rem;
 }

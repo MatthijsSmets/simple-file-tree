@@ -34,7 +34,7 @@ export class FileTreeItem {
   index?: number;
 
   currentlySelected: boolean = false;
-  expanded: boolean = true;
+  expanded: boolean = false;
   selectedChildIndex: number = -1
 
   private createChildren(children: Child[]): void {

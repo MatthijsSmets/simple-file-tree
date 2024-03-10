@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
 import {SelectItemService} from "../../select-item.service";
-import {NgSimpleFileTree} from "../ng-simple-file-tree.component";
+import {OptionsService} from "../../options.service";
 
 @Component({
   selector: 'app-tree-item',
@@ -15,7 +15,7 @@ export class TreeItemComponent implements OnInit {
   expanded?: boolean;
   justClicked: boolean = false;
 
-  constructor(private selectItemService: SelectItemService) {
+  constructor(private selectItemService: SelectItemService, public optionsService: OptionsService) {
   }
 
   ngOnInit(): void {
@@ -27,7 +27,7 @@ export class TreeItemComponent implements OnInit {
     this.selectItemService.itemSelectedObservable.subscribe((value: FileTreeItem): void => {
       if (!this.justClicked) {
         this.item.currentlySelected = value.path == this.item.path ||
-          (NgSimpleFileTree.options.highlightOpenFolders && this.getParentPath(value.path, value.name) == this.item.path);
+          (this.optionsService.options.highlightOpenFolders && this.getParentPath(value.path, value.name) == this.item.path);
         if (this.item.currentlySelected && this.item.parent) {
           this.item.parent.selectedChildIndex = this.index
         }
@@ -60,10 +60,13 @@ export class TreeItemComponent implements OnInit {
   }
 
   handleFolderClick() {
-    if (NgSimpleFileTree.options.folderBehaviourOnClick !== 'select') {
+    if (this.optionsService.options.folderBehaviourOnClick !== 'select') {
       this.expanded = !this.expanded;
     }
-    if (NgSimpleFileTree.options.folderBehaviourOnClick == 'both' || NgSimpleFileTree.options.folderBehaviourOnClick == 'select') {
+    if (this.optionsService.options.folderBehaviourOnClick == 'select' && this.item.currentlySelected) {
+      this.expanded = !this.expanded;
+    }
+    if (this.optionsService.options.folderBehaviourOnClick == 'both' || this.optionsService.options.folderBehaviourOnClick == 'select') {
       this.item.currentlySelected = true;
     }
   }
@@ -76,9 +79,11 @@ export class TreeItemComponent implements OnInit {
     return parentPath;
   }
 
-  onDoubleClick() {
-    if (NgSimpleFileTree.options.folderBehaviourOnClick == 'doubleClick') {
+  shouldEnableVerticalLine(child: FileTreeItem, index: number) {
+    return child.currentlySelected || this.item.selectedChildIndex > index
+  }
 
-    }
+  shouldEnableHorizontalLine(child: FileTreeItem): boolean {
+    return !!((this.optionsService.options.hierarchyLines?.vertical || this.optionsService.options.hierarchyLines?.horizontal) && child.currentlySelected);
   }
 }

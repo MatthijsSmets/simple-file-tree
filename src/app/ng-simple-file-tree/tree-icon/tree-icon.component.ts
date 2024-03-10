@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
+import {OptionsService} from "../../options.service";
 
 @Component({
   selector: 'app-tree-icon',
@@ -9,6 +10,9 @@ import {FileTreeItem} from "../models/file-tree-item";
 export class TreeIconComponent {
   @Input() item!: FileTreeItem;
   @Input() expanded?: boolean | null = false;
+
+  constructor(public optionsService: OptionsService) {
+  }
 
   hasExtension(value: string): boolean {
     let extensionWithDot;
@@ -22,4 +26,5 @@ export class TreeIconComponent {
     }
     return value == extensionWithoutDot || value == extensionWithDot
   }
+
 }

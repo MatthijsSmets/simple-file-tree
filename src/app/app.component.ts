@@ -1,18 +1,17 @@
 import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
 import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
 import {Child} from "./ng-simple-file-tree/models/child";
 import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.module";
 
 @Component({
-  selector: 'ng-simple-file-tree',
+  selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgSimpleFileTreeModule],
+  imports: [NgSimpleFileTreeModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'file-tree';
+  title = 'simple-file-tree';
 
   treeItems = [
     {
@@ -30,6 +29,12 @@ export class AppComponent {
   ];
   options: FileTreeOptions = {
     highlightOpenFolders: false,
-    folderBehaviourOnClick: 'both'
+    folderBehaviourOnClick: 'expand',
+    hierarchyLines: {
+      vertical: true
+    },
+    styles: {
+      all: 'font-family: consolas',
+    }
   }
 }

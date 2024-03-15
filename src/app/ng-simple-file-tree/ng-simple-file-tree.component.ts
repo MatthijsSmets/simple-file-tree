@@ -54,7 +54,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       })
   }
 
-  public addItem(item: (Partial<CreateTreeItem> & Pick<CreateTreeItem, 'name'> & Record<string, unknown>)): void {
+  public addItem(item: CreateTreeItem): void {
     this.items.push(FileTreeItem.fromJson(item))
   }
 }

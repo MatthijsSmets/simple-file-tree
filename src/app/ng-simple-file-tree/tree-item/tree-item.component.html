@@ -1,6 +1,6 @@
 <div
   class="sft-item"
-  [ngClass]="{'item-selected': item.currentlySelected, 'last-item': lastChild, 'no-children': !item.hasChildren}"
+  [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren}"
   [style]="item.currentlySelected ? this.optionsService.options.styles?.treeItem?.active : this.optionsService.options.styles?.treeItem?.default"
   (click)="onClick()">
   <app-tree-icon [item]="item" [expanded]="expanded"></app-tree-icon>
@@ -13,7 +13,7 @@
            *ngFor="let child of item.children; let last = last; let first = first; let index = index">
         <div *ngIf="this.optionsService.options.hierarchyLines?.vertical"
              class="sft-item-vertical-line"
-             [ngClass]="{'item-selected-line': shouldEnableVerticalLine(child, index), 'item-vertical-line-extended': !first}"
+             [ngClass]="{'sft-item-selected-line': shouldEnableVerticalLine(child, index), 'sft-item-vertical-line-extended': !first}"
              [style]="shouldEnableVerticalLine(child, index) ?
              this.optionsService.options.styles?.hierarchyLine?.vertical?.default :
              this.optionsService.options.styles?.hierarchyLine?.vertical?.active"></div>

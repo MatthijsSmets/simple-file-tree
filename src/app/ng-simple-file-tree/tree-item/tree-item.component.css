@@ -37,10 +37,10 @@
 .sft-item-horizontal-line {
   position: absolute;
   height: 1px;
-  width: 1.34rem;
+  width: 1.35rem;
   background-color: var(--active-line-color);
   left: 0.12rem;
-  top: 0.92rem;
+  top: 0.96rem;
   z-index: -1;
   border-bottom-left-radius: 15px;
 }

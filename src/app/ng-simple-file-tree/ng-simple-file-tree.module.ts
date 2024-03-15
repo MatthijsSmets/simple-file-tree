@@ -20,10 +20,6 @@ import {SelectItemService} from "../select-item.service";
     NgSimpleFileTree,
     TreeItemComponent,
     TreeIconComponent
-  ],
-  providers: [
-    OptionsService,
-    SelectItemService
   ]
 })
 export class NgSimpleFileTreeModule {

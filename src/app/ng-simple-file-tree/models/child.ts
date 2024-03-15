@@ -1,5 +1,5 @@
 export type Child = {
   name: string,
-  children: Child[],
+  children?: Child[],
   icon?: string;
 }

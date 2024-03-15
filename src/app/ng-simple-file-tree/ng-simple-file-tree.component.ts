@@ -41,17 +41,20 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     this.itemSubscription.unsubscribe();
   }
 
-  createFileTreeItems(): void {
+  private createFileTreeItems(): void {
     for (let treeDatum of this.treeData) {
       this.items.push(FileTreeItem.fromJson(treeDatum))
     }
   }
 
-  subscribeToItemService(): void {
+  private subscribeToItemService(): void {
     this.itemSubscription = this.itemService.itemSelectedObservable
       .subscribe((value: FileTreeItem): void => {
         this.itemSelected.next(value);
       })
+  }
 
+  public addItem(item: (Partial<CreateTreeItem> & Pick<CreateTreeItem, 'name'> & Record<string, unknown>)): void {
+    this.items.push(FileTreeItem.fromJson(item))
   }
 }

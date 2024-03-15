@@ -6,6 +6,10 @@ import {OptionsService} from "../options.service";
 import {Subject, Subscription} from "rxjs";
 import {SelectItemService} from "../select-item.service";
 
+
+@Inject({
+  providedIn: 'root',
+})
 @Component({
   selector: 'ng-simple-tree',
   templateUrl: './ng-simple-file-tree.component.html',

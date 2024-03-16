@@ -1,5 +1,5 @@
-<div class="sft-container" [ngClass]="{'no-chevron' : !item.hasChildren}" [style]="this.optionsService.options.styles?.treeIcon" >
-  @if (item.hasChildren) {
+<div class="sft-container" [ngClass]="{'no-chevron' : !item.hasChildren()}" [style]="this.optionsService.options.styles?.treeIcon" >
+  @if (item.hasChildren()) {
     <div class="sft-chevron-container">
       @if (expanded) {
         <i class="bi bi-chevron-down sft-chevron" [style]="this.optionsService.options.styles?.chevron"></i>
@@ -9,9 +9,9 @@
     </div>
   }
   <div class="sft-icon-container">
-    @if (!!item.icon) {
+    @if (item.icon) {
       <img [src]="item.icon" alt="" class="sft-icon">
-    } @else if (item.hasChildren && !item.extension) {
+    } @else if (item.hasChildren()  && !item.extension) {
       <i class="bi bi-folder sft-icon"></i>
     } @else if (hasExtension('properties')) {
       <i class="bi bi-gear sft-icon"></i>

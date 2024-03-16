@@ -41,13 +41,13 @@ export class TreeItemComponent implements OnInit {
   }
 
   initExpanded(): void {
-    if (this.item.hasChildren) {
+    if (this.item.hasChildren()) {
       this.expanded = this.item.expanded;
     }
   }
 
   onClick(): void {
-    if (this.item.hasChildren) {
+    if (this.item.hasChildren()) {
       this.handleFolderClick();
     } else {
       this.item.currentlySelected = true;

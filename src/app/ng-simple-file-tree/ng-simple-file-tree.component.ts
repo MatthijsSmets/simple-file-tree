@@ -16,7 +16,7 @@ import {SelectItemService} from "../select-item.service";
   styleUrl: './ng-simple-file-tree.component.css'
 })
 export class NgSimpleFileTree implements OnInit, OnDestroy {
-  @Input('data') public treeData!: (Partial<CreateTreeItem> & Pick<CreateTreeItem, 'name'> & Record<string, unknown>)[];
+  @Input('data') public treeData!: CreateTreeItem[];
   @Input({alias: 'options', required: false}) options: FileTreeOptions = {
     highlightOpenFolders: false,
     folderBehaviourOnClick: 'both',
@@ -24,9 +24,9 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       all: 'font-family: sans-serif'
     }
   };
-  @Output() itemSelected: Subject<FileTreeItem> = new Subject<FileTreeItem>();
-  itemSubscription!: Subscription;
-  items: FileTreeItem[] = [];
+  @Output() protected itemSelected: Subject<FileTreeItem> = new Subject<FileTreeItem>();
+  protected itemSubscription!: Subscription;
+  protected items: FileTreeItem[] = [];
 
   constructor(private optionsService: OptionsService, private itemService: SelectItemService) {
   }
@@ -37,7 +37,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     this.subscribeToItemService();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.itemSubscription.unsubscribe();
   }
 
@@ -54,7 +54,46 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       })
   }
 
+  public getItems(): FileTreeItem[] {
+    return this.items;
+  }
+
+  public getSelected(): FileTreeItem {
+    return this.itemService.getLastSelected()
+  }
+
   public addItem(item: CreateTreeItem): void {
-    this.items.push(FileTreeItem.fromJson(item))
+    this.treeData.push(item);
+    this.items.push(FileTreeItem.fromJson(item));
+  }
+
+  public clearItems(): void {
+    this.items = [] as FileTreeItem[];
+  }
+
+  public expandAll(): void {
+    this.setExpandedForAll(true);
+  }
+
+  public collapseAll(): void {
+    this.setExpandedForAll(false);
+  }
+
+  private setExpandedForAll(value: boolean): void {
+    for (let item of this.items) {
+      item.expanded = value;
+      if (item.hasChildren()) {
+        this.setExpandedForChildren(item.children!, value)
+      }
+    }
+  }
+
+  private setExpandedForChildren(children: FileTreeItem[], value: boolean): void {
+    for (let child of children) {
+      child.expanded = value;
+      if (child.hasChildren()) {
+        this.setExpandedForChildren(child.children!, value);
+      }
+    }
   }
 }

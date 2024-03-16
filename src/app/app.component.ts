@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
 import {Child} from "./ng-simple-file-tree/models/child";
 import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.module";
+import {NgSimpleFileTree} from "./ng-simple-file-tree/ng-simple-file-tree.component";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  @ViewChild('tree') tree!: NgSimpleFileTree;
   title = 'simple-file-tree';
 
   treeItems = [
@@ -19,9 +21,16 @@ export class AppComponent {
       children: [{
         name: 'helloworld.xml',
         icon: 'assets/genetic-data-svgrepo-com.svg',
-        children: [{name: 'adapter1a'}, {name: 'adapter1b'}]
+        children: [
+          {name: 'adapter1a'},
+          {
+            name: 'adapter1b', children: [
+              {name: 'test123'}, {name: 'test456'}
+            ]
+          }
+        ]
       },
-        {name: 'settings.yml'} as Child
+        {name: 'settings.yml'}
       ]
     },
     {name: 'helloworld.yml'},
@@ -37,4 +46,9 @@ export class AppComponent {
       all: 'font-family: consolas',
     }
   }
+
+  getSelected() {
+    console.log(this.tree.getSelected().name)
+  }
+
 }

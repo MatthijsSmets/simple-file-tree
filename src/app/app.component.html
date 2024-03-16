@@ -1,1 +1,3 @@
-<ng-simple-tree [options]="options" [data]="treeItems"></ng-simple-tree>
+<ng-simple-tree #tree [options]="options" [data]="treeItems"></ng-simple-tree>
+<button>Add Item</button>
+<button (click)="getSelected()">Get selected item</button>

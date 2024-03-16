@@ -4,7 +4,6 @@ import {CreateTreeItem} from "./create-tree-item";
 export class FileTreeItem {
   name: string;
   path: string;
-  hasChildren: boolean;
   private constructor(name: string, children?: Child[], icon?: string, path?: string, parent?: FileTreeItem, index?: number) {
     this.index = index
     if (path) {
@@ -17,7 +16,6 @@ export class FileTreeItem {
       const split = name.split('.');
       this.extension = split[split.length - 1]
     }
-    this.hasChildren = !!children && children.length > 0;
     this.icon = icon;
     if (children && children.length > 0) {
       this.createChildren(children);
@@ -36,6 +34,10 @@ export class FileTreeItem {
   currentlySelected: boolean = false;
   expanded: boolean = false;
   selectedChildIndex: number = -1
+
+  public hasChildren(): boolean {
+    return !!this.children && this.children.length > 0;
+  }
 
   private createChildren(children: Child[]): void {
     let newChildrenList: FileTreeItem[] = [];

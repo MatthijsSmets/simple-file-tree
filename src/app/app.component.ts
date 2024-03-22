@@ -1,8 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
-import {Child} from "./ng-simple-file-tree/models/child";
 import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.module";
 import {NgSimpleFileTree} from "./ng-simple-file-tree/ng-simple-file-tree.component";
+
 
 @Component({
   selector: 'app-root',
@@ -46,9 +46,4 @@ export class AppComponent {
       all: 'font-family: consolas',
     }
   }
-
-  getSelected() {
-    console.log(this.tree.getSelected().name)
-  }
-
 }

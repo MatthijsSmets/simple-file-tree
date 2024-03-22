@@ -24,6 +24,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       all: 'font-family: sans-serif'
     }
   };
+  @Input('childrenKey') public childrenKey?: string;
   @Output() protected itemSelected: Subject<FileTreeItem> = new Subject<FileTreeItem>();
   protected itemSubscription!: Subscription;
   protected items: FileTreeItem[] = [];
@@ -42,8 +43,10 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   }
 
   private createFileTreeItems(): void {
-    for (let treeDatum of this.treeData) {
-      this.items.push(FileTreeItem.fromJson(treeDatum))
+    if (this.treeData) {
+      for (let treeDatum of this.treeData) {
+        this.items.push(FileTreeItem.fromJson(treeDatum, this.childrenKey))
+      }
     }
   }
 
@@ -64,7 +67,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
 
   public addItem(item: CreateTreeItem): void {
     this.treeData.push(item);
-    this.items.push(FileTreeItem.fromJson(item));
+    this.items.push(FileTreeItem.fromJson(item, this.childrenKey));
   }
 
   public clearItems(): void {

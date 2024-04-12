@@ -1,28 +1,31 @@
-<div
-  class="sft-item"
-  [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren()}"
-  [style]="item.currentlySelected ? this.optionsService.options.styles?.treeItem?.active : this.optionsService.options.styles?.treeItem?.default"
-  (click)="onClick()">
-  <app-tree-icon [item]="item" [expanded]="expanded"></app-tree-icon>
-  <div class="item-name">{{ item.name }}</div>
-</div>
-@if (expanded) {
-  @if (item.hasChildren()) {
-    <div class="sft-child-container">
-      <div class="sft-item-child"
-           *ngFor="let child of item.children; let last = last; let first = first; let index = index">
-        <div *ngIf="this.optionsService.options.hierarchyLines?.vertical"
-             class="sft-item-vertical-line"
-             [ngClass]="{'sft-item-selected-line': shouldEnableVerticalLine(child, index), 'sft-item-vertical-line-extended': !first}"
-             [style]="shouldEnableVerticalLine(child, index) ?
-             this.optionsService.options.styles?.hierarchyLine?.vertical?.default :
-             this.optionsService.options.styles?.hierarchyLine?.vertical?.active"></div>
-        <div
-          class="sft-item-horizontal-line"
-          *ngIf="shouldEnableHorizontalLine(child)"
-          [style]="this.optionsService.options.styles?.hierarchyLine?.horizontal"></div>
-        <app-tree-item [item]="child" [lastChild]="last == first ? false : last" [index]="index"></app-tree-item>
+<div #element>
+  <div
+    class="sft-item"
+    [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren()}"
+    [style.color]="item.fontColor"
+    [style]="item.currentlySelected ? this.optionsService.getOptions().styles?.treeItem?.active : this.optionsService.getOptions().styles?.treeItem?.default"
+    (click)="onClick()">
+    <app-tree-icon [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
+    <div class="item-name">{{ item.name }}</div>
+  </div>
+  @if (this.item.expanded) {
+    @if (item.hasChildren()) {
+      <div class="sft-child-container">
+        <div class="sft-item-child"
+             *ngFor="let child of item.children; let last = last; let first = first; let index = index">
+          <div *ngIf="this.optionsService.getOptions().hierarchyLines?.vertical"
+               class="sft-item-vertical-line"
+               [ngClass]="{'sft-item-selected-line': shouldEnableVerticalLine(child, index), 'sft-item-vertical-line-extended': !first}"
+               [style]="shouldEnableVerticalLine(child, index) ?
+             this.optionsService.getOptions().styles?.hierarchyLine?.vertical?.default :
+             this.optionsService.getOptions().styles?.hierarchyLine?.vertical?.active"></div>
+          <div
+            class="sft-item-horizontal-line"
+            *ngIf="shouldEnableHorizontalLine(child)"
+            [style]="this.optionsService.getOptions().styles?.hierarchyLine?.horizontal"></div>
+          <app-tree-item #childElement [item]="child" [lastChild]="last == first ? false : last" [index]="index"></app-tree-item>
+        </div>
       </div>
-    </div>
+    }
   }
-}
+</div>

@@ -1,1 +1,6 @@
-<app-tree-item *ngFor="let item of items" [item]="item" [style]="options.styles?.all"></app-tree-item>
+<app-tree-item
+  #elements
+  *ngFor="let item of items"
+  [item]="item"
+  [style]="options.styles?.all">
+</app-tree-item>

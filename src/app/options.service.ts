@@ -6,6 +6,10 @@ import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
 })
 export class OptionsService {
 
-  public options!: FileTreeOptions;
+  public static options: FileTreeOptions;
   constructor() { }
+
+  getOptions(): FileTreeOptions {
+    return OptionsService.options
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild,  ElementRef} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
 import {SelectItemService} from "../../select-item.service";
 import {OptionsService} from "../../options.service";
@@ -12,7 +12,8 @@ export class TreeItemComponent implements OnInit {
   @Input() item!: FileTreeItem;
   @Input() lastChild: boolean = false;
   @Input() index!: number;
-  expanded?: boolean;
+  @ViewChild('element') element!: ElementRef<HTMLElement>;
+  @ViewChild('childElement') childElement!: TreeItemComponent;
   justClicked: boolean = false;
 
   constructor(private selectItemService: SelectItemService, public optionsService: OptionsService) {
@@ -20,19 +21,21 @@ export class TreeItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToItemService();
-    this.initExpanded();
+    if (this.optionsService.getOptions().autoOpenCondition) {
+      this.item.expanded = this.optionsService.getOptions().autoOpenCondition!(this.item.originalValue)
+    }
   }
 
   subscribeToItemService(): void {
     this.selectItemService.itemSelectedObservable.subscribe((value: FileTreeItem): void => {
       if (!this.justClicked) {
         this.item.currentlySelected = value.path == this.item.path ||
-          (this.optionsService.options.highlightOpenFolders && this.getParentPath(value.path, value.name) == this.item.path);
+          (this.optionsService.getOptions().highlightOpenFolders && this.getParentPath(value) === this.item.path);
         if (this.item.currentlySelected && this.item.parent) {
           this.item.parent.selectedChildIndex = this.index
         }
         //Set index to -1 if an item is selected that is not in the path
-        if (this.item.parent && this.getParentPath(value.path, value.name) != this.item.parent.path) {
+        if (this.item.parent && this.getParentPath(value) !== this.item.parent.path) {
           this.item.parent.selectedChildIndex = -1
         }
       }
@@ -40,11 +43,6 @@ export class TreeItemComponent implements OnInit {
     })
   }
 
-  initExpanded(): void {
-    if (this.item.hasChildren()) {
-      this.expanded = this.item.expanded;
-    }
-  }
 
   onClick(): void {
     if (this.item.hasChildren()) {
@@ -59,20 +57,20 @@ export class TreeItemComponent implements OnInit {
     this.selectItemService.nextItem(this.item);
   }
 
-  handleFolderClick() {
-    if (this.optionsService.options.folderBehaviourOnClick !== 'select') {
-      this.expanded = !this.expanded;
+  handleFolderClick(): void {
+    if (this.optionsService.getOptions().folderBehaviourOnClick !== 'select') {
+      this.item.expanded = !this.item.expanded;
     }
-    if (this.optionsService.options.folderBehaviourOnClick == 'select' && this.item.currentlySelected) {
-      this.expanded = !this.expanded;
+    if (this.optionsService.getOptions().folderBehaviourOnClick == 'select' && this.item.currentlySelected) {
+      this.item.expanded = !this.item.expanded;
     }
-    if (this.optionsService.options.folderBehaviourOnClick == 'both' || this.optionsService.options.folderBehaviourOnClick == 'select') {
+    if (this.optionsService.getOptions().folderBehaviourOnClick == 'both' || this.optionsService.getOptions().folderBehaviourOnClick == 'select') {
       this.item.currentlySelected = true;
     }
   }
 
-  getParentPath(childPath: string, childName: string): string {
-    let parentPath: string = childPath.replace(childName, '');
+  getParentPath(value: FileTreeItem): string {
+    let parentPath: string = value.path.replace(value.getPathAttribute(), '');
     if (parentPath.endsWith('/')) {
       return parentPath.substring(0, parentPath.length - 1)
     }
@@ -83,7 +81,7 @@ export class TreeItemComponent implements OnInit {
     return child.currentlySelected || this.item.selectedChildIndex > index
   }
 
-  shouldEnableHorizontalLine(child: FileTreeItem): boolean {
-    return !!((this.optionsService.options.hierarchyLines?.vertical || this.optionsService.options.hierarchyLines?.horizontal) && child.currentlySelected);
+  shouldEnableHorizontalLine(item: FileTreeItem): boolean {
+    return !!((this.optionsService.getOptions().hierarchyLines?.vertical || this.optionsService.getOptions().hierarchyLines?.horizontal) && item.currentlySelected);
   }
 }

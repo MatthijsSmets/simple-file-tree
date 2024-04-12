@@ -6,7 +6,7 @@ import {FileTreeItem} from "./ng-simple-file-tree/models/file-tree-item";
   providedIn: 'root'
 })
 export class SelectItemService {
-  private itemSelectedSubject: Subject<FileTreeItem> = new ReplaySubject(1);
+  private itemSelectedSubject: ReplaySubject<FileTreeItem> = new ReplaySubject(1);
   public itemSelectedObservable: Observable<FileTreeItem> = this.itemSelectedSubject.asObservable();
   private lastValue!: FileTreeItem;
 

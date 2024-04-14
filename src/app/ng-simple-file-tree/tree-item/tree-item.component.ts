@@ -15,6 +15,7 @@ export class TreeItemComponent implements OnInit {
   @ViewChild('element') element!: ElementRef<HTMLElement>;
   @ViewChild('childElement') childElement!: TreeItemComponent;
   justClicked: boolean = false;
+  protected visible: boolean = true;
 
   constructor(private selectItemService: SelectItemService, public optionsService: OptionsService) {
   }
@@ -83,5 +84,9 @@ export class TreeItemComponent implements OnInit {
 
   shouldEnableHorizontalLine(item: FileTreeItem): boolean {
     return !!((this.optionsService.getOptions().hierarchyLines?.vertical || this.optionsService.getOptions().hierarchyLines?.horizontal) && item.currentlySelected);
+  }
+
+  setVisible(value: boolean): void {
+    this.visible = value;
   }
 }

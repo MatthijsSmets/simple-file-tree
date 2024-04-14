@@ -1,16 +1,16 @@
-<div #element>
-  <div
-    class="sft-item"
-    [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren()}"
-    [style.color]="item.fontColor"
-    [style]="item.currentlySelected ? this.optionsService.getOptions().styles?.treeItem?.active : this.optionsService.getOptions().styles?.treeItem?.default"
-    (click)="onClick()">
-    <app-tree-icon [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
-    <div class="item-name">{{ item.name }}</div>
-  </div>
-  @if (this.item.expanded) {
+@if (visible) {
+  <div #element>
+    <div
+      class="sft-item"
+      [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren()}"
+      [style.color]="item.fontColor"
+      [style]="item.currentlySelected ? this.optionsService.getOptions().styles?.treeItem?.active : this.optionsService.getOptions().styles?.treeItem?.default"
+      (click)="onClick()">
+      <app-tree-icon [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
+      <div class="item-name">{{ item.name }}</div>
+    </div>
     @if (item.hasChildren()) {
-      <div class="sft-child-container">
+      <div class="sft-child-container" [hidden]="!item.expanded">
         <div class="sft-item-child"
              *ngFor="let child of item.children; let last = last; let first = first; let index = index">
           <div *ngIf="this.optionsService.getOptions().hierarchyLines?.vertical"
@@ -23,9 +23,10 @@
             class="sft-item-horizontal-line"
             *ngIf="shouldEnableHorizontalLine(child)"
             [style]="this.optionsService.getOptions().styles?.hierarchyLine?.horizontal"></div>
-          <app-tree-item #childElement [item]="child" [lastChild]="last == first ? false : last" [index]="index"></app-tree-item>
+          <app-tree-item #childElement [item]="child" [lastChild]="last == first ? false : last"
+                         [index]="index"></app-tree-item>
         </div>
       </div>
     }
-  }
-</div>
+  </div>
+}

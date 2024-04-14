@@ -42,6 +42,7 @@ export class AppComponent {
           id: "1#2",}
       ]
     },
+    {name: ''},
     {name: 'helloworld.yml',
     },
     {name: 'application.properties',

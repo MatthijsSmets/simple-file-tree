@@ -5,21 +5,29 @@ import {OptionsService} from "../../options.service";
 export class FileTreeItem {
   name: string;
   path: string;
+  originalValue: any;
 
   private constructor(name: string, originalValue: any, optional: OptionalParameters) {
-    this.name = name;
+    if (optional.nameAttribute) {
+      this.name = originalValue[optional.nameAttribute]
+    } else {
+      this.name = name;
+    }
+    if (!this.name) {
+      this.name = 'null'
+    }
     this.originalValue = originalValue;
     this.index = optional.index;
     this.parent = optional.parent;
     this.icon = optional.icon;
     this.pathAttribute = optional.pathAttribute;
-    if (optional.pathAttribute) {
+    if (optional.pathAttribute && originalValue[optional.pathAttribute]) {
       this.path = optional.path ?? originalValue[optional.pathAttribute];
     } else {
-      this.path = optional.path ?? name;
+      this.path = optional.path ?? this.name;
     }
-    if (name.includes('.')) {
-      const split = name.split('.');
+    if (this.name && this.name.includes('.')) {
+      const split = this.name.split('.');
       this.extension = split[split.length - 1];
     }
 
@@ -43,7 +51,6 @@ export class FileTreeItem {
   currentlySelected: boolean = false;
   expanded!: boolean;
   selectedChildIndex: number = -1
-  originalValue: any;
   private readonly childrenKey?: string;
   public readonly pathAttribute?: string;
   fontColor?: string;
@@ -62,23 +69,30 @@ export class FileTreeItem {
         } else {
           children = child.children;
         }
-        let path;
 
+        let name;
+        if (optional.nameAttribute) {
+          name = child[optional.nameAttribute];
+        } else {
+          name = child.name;
+        }
+
+        let path;
         if (optional.pathAttribute && optional.path) {
           path = optional.path + "/" + child[optional.pathAttribute]
         } else if (this.pathAttribute && optional.path) {
           path = optional.path + "/" + child[this.pathAttribute]
         } else if (child.path) {
-          path = child.path + '/' + child.name;
+          path = child.path + '/' + name;
         } else {
-          path = optional.path + '/' + child.name;
+          path = optional.path + '/' + name;
         }
 
         if (this.childrenKey && child[this.childrenKey]) {
           children = child[this.childrenKey];
         }
 
-        newChildrenList.push(new FileTreeItem(child.name,
+        newChildrenList.push(new FileTreeItem(name,
           child,
           {
             childrenKey: this.childrenKey,
@@ -86,7 +100,8 @@ export class FileTreeItem {
             icon: child.icon,
             path: path,
             parent: this,
-            pathAttribute: this.pathAttribute ?? optional.pathAttribute
+            pathAttribute: this.pathAttribute ?? optional.pathAttribute,
+            nameAttribute: optional.nameAttribute
           }
         ));
       }
@@ -99,9 +114,15 @@ export class FileTreeItem {
   }
 
   public static fromJson(item: CreateTreeItem, optional: OptionalParameters): FileTreeItem {
+    let name;
+    if (optional.nameAttribute) {
+      name = item[optional.nameAttribute]
+    } else {
+      name = item.name
+    }
     let _childrenKey = optional.childrenKey;
     let children = item.children;
-    let path = item.path ?? item.name;
+    let path = item.path ?? name;
     if (optional.pathAttribute && item[optional.pathAttribute]) {
       path = item[optional.pathAttribute]
     }
@@ -110,7 +131,7 @@ export class FileTreeItem {
     }
     item.path = path;
     return new FileTreeItem(
-      item.name,
+      name,
       item,
       {
         childrenKey: _childrenKey,
@@ -135,4 +156,5 @@ export interface OptionalParameters {
   path?: string;
   parent?: FileTreeItem;
   index?: number;
+  nameAttribute?: string;
 }

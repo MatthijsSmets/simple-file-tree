@@ -4,27 +4,32 @@
       class="sft-item"
       [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren()}"
       [style.color]="item.fontColor"
-      [style]="item.currentlySelected ? this.optionsService.getOptions().styles?.treeItem?.active : this.optionsService.getOptions().styles?.treeItem?.default"
+      [style]="item.currentlySelected ? this.parentTree.options.styles?.treeItem?.active : this.parentTree.options.styles?.treeItem?.default"
       (click)="onClick()">
-      <app-tree-icon [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
+      <app-tree-icon [parentTree]="parentTree" [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
       <div class="item-name">{{ item.name }}</div>
     </div>
     @if (item.hasChildren()) {
       <div class="sft-child-container" [hidden]="!item.expanded">
         <div class="sft-item-child"
              *ngFor="let child of item.children; let last = last; let first = first; let index = index">
-          <div *ngIf="this.optionsService.getOptions().hierarchyLines?.vertical"
+          <div *ngIf="this.parentTree.options.hierarchyLines?.vertical"
                class="sft-item-vertical-line"
                [ngClass]="{'sft-item-selected-line': shouldEnableVerticalLine(child, index), 'sft-item-vertical-line-extended': !first}"
                [style]="shouldEnableVerticalLine(child, index) ?
-             this.optionsService.getOptions().styles?.hierarchyLine?.vertical?.default :
-             this.optionsService.getOptions().styles?.hierarchyLine?.vertical?.active"></div>
+             this.parentTree.options.styles?.hierarchyLine?.vertical?.default :
+             this.parentTree.options.styles?.hierarchyLine?.vertical?.active"></div>
           <div
             class="sft-item-horizontal-line"
             *ngIf="shouldEnableHorizontalLine(child)"
-            [style]="this.optionsService.getOptions().styles?.hierarchyLine?.horizontal"></div>
-          <app-tree-item #childElement [item]="child" [lastChild]="last == first ? false : last"
-                         [index]="index"></app-tree-item>
+            [style]="this.parentTree.options.styles?.hierarchyLine?.horizontal"></div>
+          <app-tree-item
+            #childElement
+            [item]="child"
+            [index]="index"
+            [parentTree]="parentTree"
+            [lastChild]="last == first ? false : last"
+          ></app-tree-item>
         </div>
       </div>
     }

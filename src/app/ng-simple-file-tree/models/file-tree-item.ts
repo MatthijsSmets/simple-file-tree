@@ -1,13 +1,13 @@
 import {Child} from "./child";
 import {CreateTreeItem} from "./create-tree-item";
-import {OptionsService} from "../../options.service";
+import type {NgSimpleFileTree} from "../ng-simple-file-tree.component";
 
 export class FileTreeItem {
   name: string;
   path: string;
   originalValue: any;
 
-  private constructor(name: string, originalValue: any, optional: OptionalParameters) {
+  private constructor(name: string, parentTree: NgSimpleFileTree, originalValue: any, optional: OptionalParameters) {
     if (optional.nameAttribute) {
       this.name = originalValue[optional.nameAttribute]
     } else {
@@ -33,13 +33,13 @@ export class FileTreeItem {
 
     if (optional.childrenKey) {
       this.childrenKey = optional.childrenKey;
-      this.createChildren(originalValue[optional.childrenKey], optional);
+      this.createChildren(originalValue[optional.childrenKey], parentTree, optional);
     } else if (optional.children && optional.children.length > 0) {
-      this.createChildren(optional.children, optional);
+      this.createChildren(optional.children, parentTree, optional);
     } else {
       this.children = [] as FileTreeItem[];
     }
-    this.expanded = !!(OptionsService.options.expandAllFolders && this.hasChildren());
+    this.expanded = !!(parentTree.options.expandAllFolders && this.hasChildren());
   }
 
   extension?: string;
@@ -59,7 +59,7 @@ export class FileTreeItem {
     return !!this.children && this.children.length > 0;
   }
 
-  private createChildren(children: CreateTreeItem[], optional: OptionalParameters): void {
+  private createChildren(children: CreateTreeItem[], parentTree: NgSimpleFileTree, optional: OptionalParameters): void {
     let newChildrenList: FileTreeItem[] = [];
     if (children) {
       for (let child of children) {
@@ -92,7 +92,7 @@ export class FileTreeItem {
           children = child[this.childrenKey];
         }
 
-        newChildrenList.push(new FileTreeItem(name,
+        newChildrenList.push(new FileTreeItem(name, parentTree,
           child,
           {
             childrenKey: this.childrenKey,
@@ -113,7 +113,7 @@ export class FileTreeItem {
     return this.pathAttribute ? this.originalValue[this.pathAttribute] : this.name;
   }
 
-  public static fromJson(item: CreateTreeItem, optional: OptionalParameters): FileTreeItem {
+  public static fromJson(item: CreateTreeItem, parentTree: NgSimpleFileTree, optional: OptionalParameters): FileTreeItem {
     let name;
     if (optional.nameAttribute) {
       name = item[optional.nameAttribute]
@@ -132,6 +132,7 @@ export class FileTreeItem {
     item.path = path;
     return new FileTreeItem(
       name,
+      parentTree,
       item,
       {
         childrenKey: _childrenKey,

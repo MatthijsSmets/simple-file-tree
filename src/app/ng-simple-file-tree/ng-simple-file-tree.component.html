@@ -1,6 +1,7 @@
 <app-tree-item
   #elements
   *ngFor="let item of items"
+  [parentTree]="this"
   [item]="item"
   [style]="options.styles?.all">
 </app-tree-item>

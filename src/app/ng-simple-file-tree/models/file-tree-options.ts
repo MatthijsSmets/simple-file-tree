@@ -4,6 +4,7 @@ export interface FileTreeOptions {
   highlightOpenFolders: boolean;
   folderBehaviourOnClick: 'select' | 'expand' | 'both';
   autoOpenCondition?: (item: CreateTreeItem) => boolean;
+  autoSelectCondition?: (item: CreateTreeItem) => boolean;
   expandAllFolders?: boolean;
   hierarchyLines?: {
     vertical?: boolean,

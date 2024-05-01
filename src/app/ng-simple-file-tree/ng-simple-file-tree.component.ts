@@ -1,11 +1,10 @@
-import {Component, Inject, Input, OnDestroy, OnInit, Output, ViewChildren, QueryList, ElementRef} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {FileTreeOptions} from "./models/file-tree-options";
 import {FileTreeItem, OptionalParameters} from "./models/file-tree-item";
 import {CreateTreeItem} from "./models/create-tree-item";
-import {OptionsService} from "../options.service";
 import {Subject, Subscription} from "rxjs";
-import {SelectItemService} from "../select-item.service";
 import {TreeItemComponent} from "./tree-item/tree-item.component";
+import {Treestate} from "./models/treestate";
 
 
 @Inject({
@@ -31,12 +30,9 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   protected itemSubscription!: Subscription;
   protected items: FileTreeItem[] = [];
   @ViewChildren('elements') elements!: QueryList<TreeItemComponent>
-
-  constructor(private itemService: SelectItemService) {
-  }
+  public state: Treestate = new Treestate();
 
   ngOnInit(): void {
-    OptionsService.options = this.options;
     this.createFileTreeItems();
     this.subscribeToItemService();
   }
@@ -48,7 +44,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   private createFileTreeItems(): void {
     if (this.treeData) {
       for (let treeDatum of this.treeData) {
-        this.items.push(FileTreeItem.fromJson(treeDatum, {
+        this.items.push(FileTreeItem.fromJson(treeDatum, this, {
           childrenKey: this.childrenKey,
           pathAttribute: this.pathAttribute
         }))
@@ -57,7 +53,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   }
 
   private subscribeToItemService(): void {
-    this.itemSubscription = this.itemService.itemSelectedObservable
+    this.itemSubscription = this.state.itemSelectedObservable
       .subscribe((value: FileTreeItem): void => {
         this.itemSelected.next(value);
       })
@@ -94,12 +90,11 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
 
   public selectItem(path: string): void {
     const item = this.findItemWithPath(path, this.items)
-
     if (item) {
       if (item.parent) {
         item.parent.expanded = true;
       }
-      this.itemService.nextItem(item);
+      this.state.nextItem(item);
     }
   }
 
@@ -107,10 +102,10 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     const children: FileTreeItem[] = [];
     for (let item of items) {
       if (item.path === path) {
-        return item
+        return item;
       }
       if (item.hasChildren()) {
-        children.push(...item.children!)
+        children.push(...item.children!);
       }
     }
     return this.findItemWithPath(path, children);
@@ -121,7 +116,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   }
 
   public getSelected(): FileTreeItem {
-    return this.itemService.getLastSelected()
+    return this.state.getLastSelected()
   }
 
   public addItem(item: CreateTreeItem, optional?: OptionalParameters): string {
@@ -132,7 +127,10 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       this.items = [];
     }
     this.treeData.push(item);
-    const treeItem: FileTreeItem = FileTreeItem.fromJson(item, optional ?? {childrenKey: this.childrenKey, pathAttribute: this.pathAttribute})
+    const treeItem: FileTreeItem = FileTreeItem.fromJson(item, this, optional ?? {
+      childrenKey: this.childrenKey,
+      pathAttribute: this.pathAttribute
+    })
     this.items.push(treeItem);
     return treeItem.path;
   }

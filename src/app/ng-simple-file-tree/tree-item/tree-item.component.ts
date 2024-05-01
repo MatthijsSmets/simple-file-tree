@@ -1,7 +1,6 @@
-import {Component, Input, OnInit, ViewChild,  ElementRef} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
-import {SelectItemService} from "../../select-item.service";
-import {OptionsService} from "../../options.service";
+import type {NgSimpleFileTree} from "../ng-simple-file-tree.component";
 
 @Component({
   selector: 'app-tree-item',
@@ -9,6 +8,7 @@ import {OptionsService} from "../../options.service";
   styleUrl: './tree-item.component.css'
 })
 export class TreeItemComponent implements OnInit {
+  @Input({required: true}) parentTree!: NgSimpleFileTree;
   @Input() item!: FileTreeItem;
   @Input() lastChild: boolean = false;
   @Input() index!: number;
@@ -17,21 +17,30 @@ export class TreeItemComponent implements OnInit {
   justClicked: boolean = false;
   protected visible: boolean = true;
 
-  constructor(private selectItemService: SelectItemService, public optionsService: OptionsService) {
-  }
 
   ngOnInit(): void {
     this.subscribeToItemService();
-    if (this.optionsService.getOptions().autoOpenCondition) {
-      this.item.expanded = this.optionsService.getOptions().autoOpenCondition!(this.item.originalValue)
+    this.setAutoFunctions();
+  }
+
+  setAutoFunctions(): void {
+    if (this.parentTree.options.autoOpenCondition) {
+      if (!this.item.expanded) {
+        this.item.expanded = this.parentTree.options.autoOpenCondition!(this.item.originalValue)
+      }
+    }
+    if (this.parentTree.options.autoSelectCondition) {
+      if (!this.item.currentlySelected) {
+        this.item.currentlySelected = this.parentTree.options.autoSelectCondition!(this.item.originalValue);
+      }
     }
   }
 
   subscribeToItemService(): void {
-    this.selectItemService.itemSelectedObservable.subscribe((value: FileTreeItem): void => {
+    this.parentTree.state.itemSelectedObservable.subscribe((value: FileTreeItem): void => {
       if (!this.justClicked) {
         this.item.currentlySelected = value.path == this.item.path ||
-          (this.optionsService.getOptions().highlightOpenFolders && this.getParentPath(value) === this.item.path);
+          (this.parentTree.options.highlightOpenFolders && this.getParentPath(value) === this.item.path);
         if (this.item.currentlySelected && this.item.parent) {
           this.item.parent.selectedChildIndex = this.index
         }
@@ -55,17 +64,17 @@ export class TreeItemComponent implements OnInit {
       }
     }
     this.justClicked = true;
-    this.selectItemService.nextItem(this.item);
+    this.parentTree.state.nextItem(this.item);
   }
 
   handleFolderClick(): void {
-    if (this.optionsService.getOptions().folderBehaviourOnClick !== 'select') {
+    if (this.parentTree.options.folderBehaviourOnClick !== 'select') {
       this.item.expanded = !this.item.expanded;
     }
-    if (this.optionsService.getOptions().folderBehaviourOnClick == 'select' && this.item.currentlySelected) {
+    if (this.parentTree.options.folderBehaviourOnClick == 'select' && this.item.currentlySelected) {
       this.item.expanded = !this.item.expanded;
     }
-    if (this.optionsService.getOptions().folderBehaviourOnClick == 'both' || this.optionsService.getOptions().folderBehaviourOnClick == 'select') {
+    if (this.parentTree.options.folderBehaviourOnClick == 'both' || this.parentTree.options.folderBehaviourOnClick == 'select') {
       this.item.currentlySelected = true;
     }
   }
@@ -83,7 +92,7 @@ export class TreeItemComponent implements OnInit {
   }
 
   shouldEnableHorizontalLine(item: FileTreeItem): boolean {
-    return !!((this.optionsService.getOptions().hierarchyLines?.vertical || this.optionsService.getOptions().hierarchyLines?.horizontal) && item.currentlySelected);
+    return !!((this.parentTree.options.hierarchyLines?.vertical || this.parentTree.options.hierarchyLines?.horizontal) && item.currentlySelected);
   }
 
   setVisible(value: boolean): void {

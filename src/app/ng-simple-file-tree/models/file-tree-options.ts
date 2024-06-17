@@ -5,6 +5,7 @@ export interface FileTreeOptions {
   folderBehaviourOnClick: 'select' | 'expand' | 'both';
   autoOpenCondition?: (item: CreateTreeItem) => boolean;
   autoSelectCondition?: (item: CreateTreeItem) => boolean;
+  determineIconClass?: (item: CreateTreeItem) => string;
   expandAllFolders?: boolean;
   hierarchyLines?: {
     vertical?: boolean,

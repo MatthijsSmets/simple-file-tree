@@ -3,6 +3,7 @@ import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
 import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.module";
 import {NgSimpleFileTree} from "./ng-simple-file-tree/ng-simple-file-tree.component";
 import {FileTreeItem} from "./ng-simple-file-tree/models/file-tree-item";
+import { CreateTreeItem } from "./ng-simple-file-tree/models/create-tree-item";
 
 
 @Component({
@@ -49,6 +50,7 @@ export class AppComponent {
     }
   ];
   options: FileTreeOptions = {
+    determineIconClass: this.determineIcon,
     highlightOpenFolders: false,
     folderBehaviourOnClick: 'expand',
     expandAllFolders: false,
@@ -58,6 +60,10 @@ export class AppComponent {
     styles: {
       all: 'font-family: consolas',
     }
+  }
+
+  determineIcon(value: CreateTreeItem): string {
+    return 'bi bi-1-circle-fill red'
   }
 
   onSelectTreeItem(value: FileTreeItem) {

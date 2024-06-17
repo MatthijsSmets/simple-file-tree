@@ -11,6 +11,8 @@
   <div class="sft-icon-container">
     @if (item.icon) {
       <img [src]="item.icon" alt="" class="sft-icon">
+    } @else if (parentTree.options.determineIconClass) {
+      <i [class]="parentTree.options.determineIconClass(item.originalValue)"></i>
     } @else if (item.hasChildren()  && !item.extension) {
       <i class="bi bi-folder sft-icon"></i>
     } @else if (hasExtension('properties')) {

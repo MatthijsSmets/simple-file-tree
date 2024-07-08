@@ -4,12 +4,13 @@ Simple file tree for displaying files in a tree structure made with angular
 File tree can be configured with the following options:
 ```typescript
 
-export const folderBehavior = ['select', 'expand', 'both'] as const;
-export type folderBehaviorType = typeof folderBehavior;
-
 export interface FileTreeOptions {
   highlightOpenFolders: boolean;
-  folderBehaviourOnClick: folderBehaviorType[number];
+  folderBehaviourOnClick: 'select' | 'expand' | 'both';
+  autoOpenCondition?: (item: CreateTreeItem) => boolean;
+  autoSelectCondition?: (item: CreateTreeItem) => boolean;
+  determineIconClass?: (item: CreateTreeItem) => string;
+  expandAllFolders?: boolean;
   hierarchyLines?: {
     vertical?: boolean,
     horizontal?: boolean,

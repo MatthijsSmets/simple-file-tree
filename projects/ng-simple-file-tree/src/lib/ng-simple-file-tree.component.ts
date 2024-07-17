@@ -1,10 +1,10 @@
-import {Component, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
-import {FileTreeOptions} from "./models/file-tree-options";
-import {FileTreeItem, OptionalParameters} from "./models/file-tree-item";
-import {CreateTreeItem} from "./models/create-tree-item";
-import {Subject, Subscription} from "rxjs";
-import {TreeItemComponent} from "./tree-item/tree-item.component";
-import {Treestate} from "./models/treestate";
+import { Component, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { FileTreeOptions } from "./models/file-tree-options";
+import { FileTreeItem, OptionalParameters } from "./models/file-tree-item";
+import { CreateTreeItem } from "./models/create-tree-item";
+import { Subject, Subscription } from "rxjs";
+import { TreeItemComponent } from "./tree-item/tree-item.component";
+import { Treestate } from "./models/treestate";
 
 
 @Inject({
@@ -60,7 +60,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   }
 
   public searchTree(value: string): string {
-    const items = this.searchItems(value, this.items)
+    const items: { matches: FileTreeItem[], other: FileTreeItem[] } = this.searchItems(value, this.items)
     for (let item of items.matches) {
       item.setFontColor("red")
     }
@@ -87,7 +87,6 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     return returnObject;
   }
 
-
   public selectItem(path: string): void {
     const item = this.findItemWithPath(path, this.items)
     if (item) {
@@ -107,6 +106,9 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       if (item.hasChildren()) {
         children.push(...item.children!);
       }
+    }
+    if (children.length === 0) {
+      return;
     }
     return this.findItemWithPath(path, children);
   }

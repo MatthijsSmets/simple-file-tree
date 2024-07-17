@@ -14,7 +14,7 @@
       <img
         class="sft-icon"
         [src]="item.icon"
-        [ngClass]="parentTree.options.determineIconClass ? parentTree.options.determineIconClass(item) : ''"
+        [ngClass]="parentTree.options.determineIconClass ? parentTree.options.determineIconClass(item.originalValue) : ''"
       >
     } @else if (parentTree.options.determineIconClass) {
       <i [class]="parentTree.options.determineIconClass(item.originalValue)"></i>

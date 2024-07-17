@@ -1,0 +1,10 @@
+{
+  "name": "ng-simple-file-tree",
+  "version": "0.1.17",
+  "peerDependencies": {
+    "@angular/common": "^17.2.3",
+    "@angular/core": "^17.3.2",
+    "bootstrap-icons": "^1.11.3"
+  },
+  "license": ""
+}

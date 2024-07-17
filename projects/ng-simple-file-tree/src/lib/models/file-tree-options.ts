@@ -6,6 +6,7 @@ export interface FileTreeOptions {
   autoOpenCondition?: (item: CreateTreeItem) => boolean;
   autoSelectCondition?: (item: CreateTreeItem) => boolean;
   determineIconClass?: (item: CreateTreeItem) => string;
+  determineFontColor?: (item: CreateTreeItem) => string;
   expandAllFolders?: boolean;
   hierarchyLines?: {
     vertical?: boolean,

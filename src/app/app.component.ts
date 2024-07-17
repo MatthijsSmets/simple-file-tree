@@ -1,10 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
-import {FileTreeOptions} from "./ng-simple-file-tree/models/file-tree-options";
-import {NgSimpleFileTreeModule} from "./ng-simple-file-tree/ng-simple-file-tree.module";
-import {NgSimpleFileTree} from "./ng-simple-file-tree/ng-simple-file-tree.component";
-import {FileTreeItem} from "./ng-simple-file-tree/models/file-tree-item";
-import { CreateTreeItem } from "./ng-simple-file-tree/models/create-tree-item";
-
+import {NgSimpleFileTreeModule} from "../../projects/ng-simple-file-tree/src/lib/ng-simple-file-tree.module";
+import {NgSimpleFileTree} from "../../projects/ng-simple-file-tree/src/lib/ng-simple-file-tree.component";
+import {FileTreeOptions} from "../../projects/ng-simple-file-tree/src/lib/models/file-tree-options";
+import {CreateTreeItem} from "../../projects/ng-simple-file-tree/src/lib/models/create-tree-item";
+import {FileTreeItem} from "../../projects/ng-simple-file-tree/src/lib/models/file-tree-item";
 
 @Component({
   selector: 'app-root',
@@ -39,18 +38,24 @@ export class AppComponent {
           }
         ]
       },
-        {name: 'settings.yml',
-          id: "1#2",}
+        {
+          name: 'settings.yml',
+          id: "1#2",
+        }
       ]
     },
     {name: ''},
-    {name: 'helloworld.yml',
+    {
+      name: 'helloworld.yml',
     },
-    {name: 'application.properties',
+    {
+      name: 'application.properties',
     }
   ];
+
   options: FileTreeOptions = {
     determineIconClass: this.determineIcon,
+    determineFontColor: this.determineFont,
     highlightOpenFolders: false,
     folderBehaviourOnClick: 'expand',
     expandAllFolders: false,
@@ -63,7 +68,7 @@ export class AppComponent {
   }
 
   determineIcon(value: CreateTreeItem): string {
-    return 'bi bi-1-circle-fill red'
+    return 'bi bi-1-circle-fill blue'
   }
 
   onSelectTreeItem(value: FileTreeItem) {
@@ -167,5 +172,9 @@ export class AppComponent {
     for (let element of this.tree.elements) {
       element.element.nativeElement.style.display = 'none'
     }
+  }
+
+  determineFont(item: CreateTreeItem): string {
+    return 'red'
   }
 }

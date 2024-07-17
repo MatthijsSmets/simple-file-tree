@@ -1,6 +1,6 @@
 {
   "name": "ng-simple-file-tree",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "peerDependencies": {
     "@angular/common": "^17.2.3",
     "@angular/core": "^17.3.2",

@@ -19,6 +19,7 @@ export class AppComponent {
   treeItems = [
     {
       name: 'helloworld',
+      id:'123',
       children: [{
         name: 'helloworld.xml',
         id: "1#1",

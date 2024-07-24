@@ -25,7 +25,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     }
   };
   @Input('childrenKey') public childrenKey?: string;
-  @Input('pathAttribute') public pathAttribute?: string;
+  @Input('pathAttribute') public pathAttributes?: string[];
   @Output() protected itemSelected: Subject<FileTreeItem> = new Subject<FileTreeItem>();
   protected itemSubscription!: Subscription;
   protected items: FileTreeItem[] = [];
@@ -46,7 +46,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       for (let treeDatum of this.treeData) {
         this.items.push(FileTreeItem.fromJson(treeDatum, this, {
           childrenKey: this.childrenKey,
-          pathAttribute: this.pathAttribute
+          pathAttributes: this.pathAttributes
         }))
       }
     }
@@ -131,7 +131,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     this.treeData.push(item);
     const treeItem: FileTreeItem = FileTreeItem.fromJson(item, this, optional ?? {
       childrenKey: this.childrenKey,
-      pathAttribute: this.pathAttribute
+      pathAttributes: this.pathAttributes
     })
     this.items.push(treeItem);
     return treeItem.path;

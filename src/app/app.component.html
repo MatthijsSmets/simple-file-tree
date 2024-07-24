@@ -2,6 +2,6 @@
   #tree
   [options]="options"
   [data]="treeItems"
-  pathAttribute="id"
+  [pathAttribute]="['name','id']"
   (itemSelected)="onSelectTreeItem($event)">
 </ng-simple-tree>

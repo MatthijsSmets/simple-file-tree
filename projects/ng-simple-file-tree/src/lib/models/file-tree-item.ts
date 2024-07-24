@@ -1,6 +1,6 @@
-import {Child} from "./child";
-import {CreateTreeItem} from "./create-tree-item";
-import type {NgSimpleFileTree} from "../ng-simple-file-tree.component";
+import { Child } from "./child";
+import { CreateTreeItem } from "./create-tree-item";
+import type { NgSimpleFileTree } from "../ng-simple-file-tree.component";
 
 export class FileTreeItem {
   name: string;
@@ -9,20 +9,21 @@ export class FileTreeItem {
 
   private constructor(name: string, parentTree: NgSimpleFileTree, originalValue: any, optional: OptionalParameters) {
     if (optional.nameAttribute) {
-      this.name = originalValue[optional.nameAttribute]
+      this.name = originalValue[optional.nameAttribute];
     } else {
       this.name = name;
     }
     if (!this.name) {
-      this.name = 'null'
+      this.name = 'null';
     }
     this.originalValue = originalValue;
     this.index = optional.index;
     this.parent = optional.parent;
     this.icon = optional.icon;
-    this.pathAttribute = optional.pathAttribute;
-    if (optional.pathAttribute && originalValue[optional.pathAttribute]) {
-      this.path = optional.path ?? originalValue[optional.pathAttribute];
+    this.pathAttribute = optional.pathAttributes;
+
+    if (optional.pathAttributes && originalValue) {
+      this.path = optional.path ?? FileTreeItem.buildPath(originalValue, optional.pathAttributes);
     } else {
       this.path = optional.path ?? this.name;
     }
@@ -45,14 +46,14 @@ export class FileTreeItem {
   extension?: string;
   children?: FileTreeItem[];
   icon?: string;
-  parent?: FileTreeItem
+  parent?: FileTreeItem;
   index?: number;
 
   currentlySelected: boolean = false;
   expanded!: boolean;
-  selectedChildIndex: number = -1
+  selectedChildIndex: number = -1;
   private readonly childrenKey?: string;
-  public readonly pathAttribute?: string;
+  public readonly pathAttribute?: string[];
   fontColor?: string;
 
   public hasChildren(): boolean {
@@ -60,12 +61,12 @@ export class FileTreeItem {
   }
 
   private createChildren(children: CreateTreeItem[], parentTree: NgSimpleFileTree, optional: OptionalParameters): void {
-    let newChildrenList: FileTreeItem[] = [];
+    const newChildrenList: FileTreeItem[] = [];
     if (children) {
       for (let child of children) {
         let children;
         if (optional.childrenKey) {
-          children = child[optional.childrenKey]
+          children = child[optional.childrenKey];
         } else {
           children = child.children;
         }
@@ -78,10 +79,10 @@ export class FileTreeItem {
         }
 
         let path;
-        if (optional.pathAttribute && optional.path) {
-          path = optional.path + "/" + child[optional.pathAttribute]
+        if (optional.pathAttributes && optional.path) {
+          path = optional.path + "/" + FileTreeItem.buildPath(child, optional.pathAttributes);
         } else if (this.pathAttribute && optional.path) {
-          path = optional.path + "/" + child[this.pathAttribute]
+          path = optional.path + "/" + FileTreeItem.buildPath(child, this.pathAttribute);
         } else if (child.path) {
           path = child.path + '/' + name;
         } else {
@@ -100,7 +101,7 @@ export class FileTreeItem {
             icon: child.icon,
             path: path,
             parent: this,
-            pathAttribute: this.pathAttribute ?? optional.pathAttribute,
+            pathAttributes: this.pathAttribute ?? optional.pathAttributes,
             nameAttribute: optional.nameAttribute
           }
         ));
@@ -110,21 +111,28 @@ export class FileTreeItem {
   }
 
   getPathAttribute() {
-    return this.pathAttribute ? this.originalValue[this.pathAttribute] : this.name;
+    if (this.pathAttribute) {
+      return this.pathAttribute.map(attr => this.originalValue[attr]).join('/');
+    }
+    return this.name;
+  }
+
+  static buildPath(value: any, attributes: string[]): string {
+    return attributes.map(attr => value[attr]).join('|');
   }
 
   public static fromJson(item: CreateTreeItem, parentTree: NgSimpleFileTree, optional: OptionalParameters): FileTreeItem {
     let name;
     if (optional.nameAttribute) {
-      name = item[optional.nameAttribute]
+      name = item[optional.nameAttribute];
     } else {
-      name = item.name
+      name = item.name;
     }
-    let _childrenKey = optional.childrenKey;
+    const _childrenKey = optional.childrenKey;
     let children = item.children;
     let path = item.path ?? name;
-    if (optional.pathAttribute && item[optional.pathAttribute]) {
-      path = item[optional.pathAttribute]
+    if (optional.pathAttributes && item) {
+      path = optional.path ?? FileTreeItem.buildPath(item, optional.pathAttributes);
     }
     if (_childrenKey) {
       children = item[_childrenKey];
@@ -139,7 +147,7 @@ export class FileTreeItem {
         children: children,
         icon: item.icon,
         path: path,
-        pathAttribute: optional.pathAttribute
+        pathAttributes: optional.pathAttributes
       }
     );
   }
@@ -150,7 +158,7 @@ export class FileTreeItem {
 }
 
 export interface OptionalParameters {
-  pathAttribute?: string;
+  pathAttributes?: string[];
   childrenKey?: string;
   children?: Child[];
   icon?: string;

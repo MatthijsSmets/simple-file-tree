@@ -25,4 +25,8 @@ export class TreeIconComponent {
     return value == extensionWithoutDot || value == extensionWithDot
   }
 
+  toggleExpanded(event: Event): void {
+    event.stopPropagation();
+    this.item.expanded = !this.item.expanded
+  }
 }

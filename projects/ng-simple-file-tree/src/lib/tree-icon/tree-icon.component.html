@@ -1,7 +1,7 @@
 <div class="sft-container" [ngClass]="{'no-chevron' : !item.hasChildren()}"
      [style]="this.parentTree.options.styles?.treeIcon">
   @if (item.hasChildren()) {
-    <div class="sft-chevron-container">
+    <div class="sft-chevron-container" (click)="toggleExpanded($event)">
       @if (expanded) {
         <i class="bi bi-chevron-down sft-chevron" [style]="this.parentTree.options.styles?.chevron"></i>
       } @else {

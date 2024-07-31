@@ -6,7 +6,6 @@ import { Subject, Subscription } from "rxjs";
 import { TreeItemComponent } from "./tree-item/tree-item.component";
 import { Treestate } from "./models/treestate";
 
-
 @Inject({
   providedIn: 'root',
 })
@@ -28,7 +27,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   @Input('pathAttribute') public pathAttributes?: string[];
   @Output() protected itemSelected: Subject<FileTreeItem> = new Subject<FileTreeItem>();
   protected itemSubscription!: Subscription;
-  protected items: FileTreeItem[] = [];
+  public items: FileTreeItem[] = [];
   @ViewChildren('elements') elements!: QueryList<TreeItemComponent>
   public state: Treestate = new Treestate();
 
@@ -113,10 +112,6 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
     return this.findItemWithPath(path, children);
   }
 
-  public getItems(): FileTreeItem[] {
-    return this.items;
-  }
-
   public getSelected(): FileTreeItem {
     return this.state.getLastSelected()
   }
@@ -129,12 +124,16 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
       this.items = [];
     }
     this.treeData.push(item);
-    const treeItem: FileTreeItem = FileTreeItem.fromJson(item, this, optional ?? {
+    const treeItem: FileTreeItem = this.createItemToFileItem(item, optional)
+    this.items.push(treeItem);
+    return treeItem.path;
+  }
+
+  public createItemToFileItem(createItem: CreateTreeItem, optional?: OptionalParameters) {
+    return FileTreeItem.fromJson(createItem, this, optional ?? {
       childrenKey: this.childrenKey,
       pathAttributes: this.pathAttributes
     })
-    this.items.push(treeItem);
-    return treeItem.path;
   }
 
   public removeItem(path: string) {

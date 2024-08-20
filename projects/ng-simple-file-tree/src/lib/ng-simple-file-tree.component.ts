@@ -16,13 +16,7 @@ import { Treestate } from "./models/treestate";
 })
 export class NgSimpleFileTree implements OnInit, OnDestroy {
   @Input('data') public treeData!: CreateTreeItem[];
-  @Input({alias: 'options', required: false}) options: FileTreeOptions = {
-    highlightOpenFolders: false,
-    folderBehaviourOnClick: 'both',
-    styles: {
-      all: 'font-family: sans-serif'
-    }
-  };
+  @Input({alias: 'options', required: false}) options!: FileTreeOptions;
   @Input('childrenKey') public childrenKey?: string;
   @Input('pathAttribute') public pathAttributes?: string[];
   @Output() protected itemSelected: Subject<FileTreeItem> = new Subject<FileTreeItem>();

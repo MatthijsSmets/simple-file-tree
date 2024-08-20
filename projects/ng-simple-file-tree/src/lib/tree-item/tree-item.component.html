@@ -5,7 +5,8 @@
       [ngClass]="{'sft-item-selected': item.currentlySelected, 'sft-last-item': lastChild, 'sft-no-children': !item.hasChildren()}"
       [style.color]="item.fontColor"
       [style]="item.currentlySelected ? this.parentTree.options.styles?.treeItem?.active : this.parentTree.options.styles?.treeItem?.default"
-      (click)="onClick()">
+      (click)="onClick()"
+      (dblclick)="onDoubleClick()">
       <app-tree-icon [parentTree]="parentTree" [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
       <div [title]="item.name" [ngClass]="parentTree.options.determineFontColor ? parentTree.options.determineFontColor(item.originalValue) : ''" class="item-name">{{ item.name }}</div>
     </div>

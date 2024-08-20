@@ -58,7 +58,8 @@ export class AppComponent {
     determineIconClass: this.determineIcon,
     determineFontColor: this.determineFont,
     highlightOpenFolders: false,
-    folderBehaviourOnClick: 'expand',
+    folderBehaviourOnClick: 'select',
+    doubleClickToOpenFolders: false,
     expandAllFolders: false,
     hierarchyLines: {
       vertical: true

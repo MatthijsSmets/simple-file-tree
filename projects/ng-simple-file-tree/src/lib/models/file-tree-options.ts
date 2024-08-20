@@ -8,6 +8,7 @@ export interface FileTreeOptions {
   determineIconClass?: (item: CreateTreeItem) => string;
   determineFontColor?: (item: CreateTreeItem) => string;
   expandAllFolders?: boolean;
+  doubleClickToOpenFolders: boolean;
   hierarchyLines?: {
     vertical?: boolean,
     horizontal?: boolean,

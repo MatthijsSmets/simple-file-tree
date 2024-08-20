@@ -53,6 +53,11 @@ export class TreeItemComponent implements OnInit {
     })
   }
 
+  onDoubleClick(): void {
+    if (this.parentTree.options.doubleClickToOpenFolders) {
+      this.item.expanded = !this.item.expanded;
+    }
+  }
 
   onClick(): void {
     if (this.item.hasChildren()) {
@@ -69,9 +74,6 @@ export class TreeItemComponent implements OnInit {
 
   handleFolderClick(): void {
     if (this.parentTree.options.folderBehaviourOnClick !== 'select') {
-      this.item.expanded = !this.item.expanded;
-    }
-    if (this.parentTree.options.folderBehaviourOnClick == 'select' && this.item.currentlySelected) {
       this.item.expanded = !this.item.expanded;
     }
     if (this.parentTree.options.folderBehaviourOnClick == 'both' || this.parentTree.options.folderBehaviourOnClick == 'select') {

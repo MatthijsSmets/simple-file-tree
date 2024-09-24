@@ -66,7 +66,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   public searchItems(value: string, items: FileTreeItem[]): { matches: FileTreeItem[], other: FileTreeItem[] } {
     const returnObject: { matches: FileTreeItem[], other: FileTreeItem[] } = {matches: [], other: []}
     for (let item of items) {
-      if (item.name.includes(value)) {
+      if (item.name.includes(value) && value != '') {
         returnObject.matches.push(item)
       } else {
         returnObject.other.push(item)

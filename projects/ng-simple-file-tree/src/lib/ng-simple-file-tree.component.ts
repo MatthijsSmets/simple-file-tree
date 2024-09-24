@@ -1,10 +1,10 @@
-import { Component, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
-import { FileTreeOptions } from "./models/file-tree-options";
-import { FileTreeItem, OptionalParameters } from "./models/file-tree-item";
-import { CreateTreeItem } from "./models/create-tree-item";
-import { Subject, Subscription } from "rxjs";
-import { TreeItemComponent } from "./tree-item/tree-item.component";
-import { Treestate } from "./models/treestate";
+import {Component, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {FileTreeOptions} from "./models/file-tree-options";
+import {FileTreeItem, OptionalParameters} from "./models/file-tree-item";
+import {CreateTreeItem} from "./models/create-tree-item";
+import {Subject, Subscription} from "rxjs";
+import {TreeItemComponent} from "./tree-item/tree-item.component";
+import {Treestate} from "./models/treestate";
 
 @Inject({
   providedIn: 'root',
@@ -66,7 +66,7 @@ export class NgSimpleFileTree implements OnInit, OnDestroy {
   public searchItems(value: string, items: FileTreeItem[]): { matches: FileTreeItem[], other: FileTreeItem[] } {
     const returnObject: { matches: FileTreeItem[], other: FileTreeItem[] } = {matches: [], other: []}
     for (let item of items) {
-      if (item.name == value) {
+      if (item.name.includes(value)) {
         returnObject.matches.push(item)
       } else {
         returnObject.other.push(item)

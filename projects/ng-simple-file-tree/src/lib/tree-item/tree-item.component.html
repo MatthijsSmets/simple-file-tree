@@ -8,7 +8,10 @@
       (click)="onClick()"
       (dblclick)="onDoubleClick()">
       <app-tree-icon [parentTree]="parentTree" [item]="item" [expanded]="this.item.expanded"></app-tree-icon>
-      <div [title]="item.name" [ngClass]="parentTree.options.determineFontColor ? parentTree.options.determineFontColor(item.originalValue) : ''" class="item-name">{{ item.name }}</div>
+      <div [title]="item.name"
+           [ngClass]="parentTree.options.determineFontColor ? parentTree.options.determineFontColor(item.originalValue) : ''"
+           class="item-name">{{ item.name }}
+      </div>
     </div>
     @if (item.hasChildren()) {
       <div class="sft-child-container" [hidden]="!item.expanded">
@@ -16,14 +19,14 @@
              *ngFor="let child of item.children; let last = last; let first = first; let index = index">
           <div *ngIf="this.parentTree.options.hierarchyLines?.vertical"
                class="sft-item-vertical-line"
-               [ngClass]="{'sft-item-selected-line': shouldEnableVerticalLine(child, index), 'sft-item-vertical-line-extended': !first}"
+               [ngClass]="{'sft-item-vertical-line-extended': !first}"
                [style]="shouldEnableVerticalLine(child, index) ?
              this.parentTree.options.styles?.hierarchyLine?.vertical?.default :
              this.parentTree.options.styles?.hierarchyLine?.vertical?.active"></div>
-          <div
-            class="sft-item-horizontal-line"
-            *ngIf="shouldEnableHorizontalLine(child)"
-            [style]="this.parentTree.options.styles?.hierarchyLine?.horizontal"></div>
+<!--          <div-->
+<!--            class="sft-item-horizontal-line"-->
+<!--            *ngIf="shouldEnableHorizontalLine(child)"-->
+<!--            [style]="this.parentTree.options.styles?.hierarchyLine?.horizontal"></div>-->
           <app-tree-item
             #childElement
             [item]="child"

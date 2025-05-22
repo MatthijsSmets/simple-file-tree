@@ -1,18 +1,13 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {NgSimpleFileTree} from "./ng-simple-file-tree.component";
-import {TreeIconComponent} from "./tree-icon/tree-icon.component";
-import {TreeItemComponent} from "./tree-item/tree-item.component";
-
+import {NgSimpleFileTree} from './ng-simple-file-tree.component';
+import {TreeItemComponent} from './tree-item/tree-item.component';
+import {TreeIconComponent} from './tree-icon/tree-icon.component';
 
 @NgModule({
-  declarations: [
+  imports: [
     NgSimpleFileTree,
     TreeItemComponent,
     TreeIconComponent
-  ],
-  imports: [
-    CommonModule
   ],
   exports: [
     NgSimpleFileTree,
@@ -20,5 +15,4 @@ import {TreeItemComponent} from "./tree-item/tree-item.component";
     TreeIconComponent
   ]
 })
-export class NgSimpleFileTreeModule {
-}
+export class NgSimpleFileTreeModule {}

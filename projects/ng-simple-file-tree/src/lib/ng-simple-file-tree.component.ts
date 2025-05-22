@@ -10,9 +10,11 @@ import {Treestate} from "./models/treestate";
   providedIn: 'root',
 })
 @Component({
+  standalone: true,
   selector: 'ng-simple-tree',
   templateUrl: './ng-simple-file-tree.component.html',
-  styleUrl: './ng-simple-file-tree.component.css'
+  styleUrl: './ng-simple-file-tree.component.css',
+  imports: [TreeItemComponent]
 })
 export class NgSimpleFileTree implements OnInit, OnDestroy {
   @Input('data') public treeData!: CreateTreeItem[];

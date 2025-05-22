@@ -83,8 +83,8 @@ export class FileTreeItem {
           path = optional.path + "/" + FileTreeItem.buildPath(child, optional.pathAttributes);
         } else if (this.pathAttribute && optional.path) {
           path = optional.path + "/" + FileTreeItem.buildPath(child, this.pathAttribute);
-        } else if (child.path) {
-          path = child.path + '/' + name;
+        } else if (child.treePath) {
+          path = child.treePath + '/' + name;
         } else {
           path = optional.path + '/' + name;
         }
@@ -130,14 +130,14 @@ export class FileTreeItem {
     }
     const _childrenKey = optional.childrenKey;
     let children = item.children;
-    let path = item.path ?? name;
+    let path = item.treePath ?? name;
     if (optional.pathAttributes && item) {
       path = optional.path ?? FileTreeItem.buildPath(item, optional.pathAttributes);
     }
     if (_childrenKey) {
       children = item[_childrenKey];
     }
-    item.path = path;
+    item.treePath = path;
     return new FileTreeItem(
       name,
       parentTree,

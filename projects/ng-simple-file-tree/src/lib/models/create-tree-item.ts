@@ -5,6 +5,6 @@ export type CreateTreeItem = {
   childrenKey?: string;
   children?: Child[],
   icon?: string;
-  path?: string;
+  treePath?: string;
   [key: string]: any;
 }

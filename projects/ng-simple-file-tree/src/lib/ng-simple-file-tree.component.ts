@@ -1,4 +1,5 @@
 import {Component, Inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {NgFor} from '@angular/common';
 import {FileTreeOptions} from "./models/file-tree-options";
 import {FileTreeItem, OptionalParameters} from "./models/file-tree-item";
 import {CreateTreeItem} from "./models/create-tree-item";
@@ -10,9 +11,11 @@ import {Treestate} from "./models/treestate";
   providedIn: 'root',
 })
 @Component({
+  standalone: true,
   selector: 'ng-simple-tree',
   templateUrl: './ng-simple-file-tree.component.html',
-  styleUrl: './ng-simple-file-tree.component.css'
+  styleUrl: './ng-simple-file-tree.component.css',
+  imports: [NgFor, TreeItemComponent]
 })
 export class NgSimpleFileTree implements OnInit, OnDestroy {
   @Input('data') public treeData!: CreateTreeItem[];

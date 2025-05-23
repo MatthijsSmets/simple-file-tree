@@ -1,11 +1,15 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
+import {CommonModule} from '@angular/common';
+import {TreeIconComponent} from '../tree-icon/tree-icon.component';
 import type {NgSimpleFileTree} from "../ng-simple-file-tree.component";
 
 @Component({
+  standalone: true,
   selector: 'app-tree-item',
   templateUrl: './tree-item.component.html',
-  styleUrl: './tree-item.component.css'
+  styleUrl: './tree-item.component.css',
+  imports: [CommonModule, TreeIconComponent]
 })
 export class TreeItemComponent implements OnInit {
   @Input({required: true}) parentTree!: NgSimpleFileTree;

@@ -15,26 +15,30 @@
     </div>
     @if (item.hasChildren()) {
       <div class="sft-child-container" [hidden]="!item.expanded">
-        <div class="sft-item-child"
-             *ngFor="let child of item.children; let last = last; let first = first; let index = index">
-          <div *ngIf="this.parentTree.options.hierarchyLines?.vertical"
-               class="sft-item-vertical-line"
-               [ngClass]="{'sft-item-vertical-line-extended': !first}"
-               [style]="shouldEnableVerticalLine(child, index) ?
+        @for (child of item.children; track $index; let last = $last; let first = $first; let index = $index) {
+          <div class="sft-item-child">
+            @if (this.parentTree.options.hierarchyLines?.vertical) {
+              <div
+                class="sft-item-vertical-line"
+                [ngClass]="{'sft-item-vertical-line-extended': !first}"
+                [style]="shouldEnableVerticalLine(child, index) ?
              this.parentTree.options.styles?.hierarchyLine?.vertical?.default :
              this.parentTree.options.styles?.hierarchyLine?.vertical?.active"></div>
-<!--          <div-->
-<!--            class="sft-item-horizontal-line"-->
-<!--            *ngIf="shouldEnableHorizontalLine(child)"-->
-<!--            [style]="this.parentTree.options.styles?.hierarchyLine?.horizontal"></div>-->
-          <app-tree-item
-            #childElement
-            [item]="child"
-            [index]="index"
-            [parentTree]="parentTree"
-            [lastChild]="last == first ? false : last"
-          ></app-tree-item>
-        </div>
+            }
+<!--            @if (shouldEnableHorizontalLine(child)) {-->
+<!--              <div-->
+<!--                class="sft-item-horizontal-line"-->
+<!--                [style]="this.parentTree.options.styles?.hierarchyLine?.horizontal"></div>-->
+<!--            }-->
+            <app-tree-item
+              #childElement
+              [item]="child"
+              [index]="index"
+              [parentTree]="parentTree"
+              [lastChild]="last == first ? false : last"
+            ></app-tree-item>
+          </div>
+        }
       </div>
     }
   </div>

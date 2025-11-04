@@ -1,16 +1,14 @@
 import {Component, ViewChild} from '@angular/core';
-import {NgSimpleFileTreeModule} from "../../projects/ng-simple-file-tree/src/lib/ng-simple-file-tree.module";
 import {NgSimpleFileTree} from "../../projects/ng-simple-file-tree/src/lib/ng-simple-file-tree.component";
 import {FileTreeOptions} from "../../projects/ng-simple-file-tree/src/lib/models/file-tree-options";
 import {CreateTreeItem} from "../../projects/ng-simple-file-tree/src/lib/models/create-tree-item";
 import {FileTreeItem} from "../../projects/ng-simple-file-tree/src/lib/models/file-tree-item";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [NgSimpleFileTreeModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [NgSimpleFileTree],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   @ViewChild('tree') tree!: NgSimpleFileTree;

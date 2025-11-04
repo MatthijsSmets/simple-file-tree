@@ -3,7 +3,6 @@
  */
 
 export * from './lib/ng-simple-file-tree.component';
-export * from './lib/ng-simple-file-tree.module';
 export * from './lib/models/child';
 export * from './lib/models/create-tree-item';
 export * from './lib/models/file-tree-item';

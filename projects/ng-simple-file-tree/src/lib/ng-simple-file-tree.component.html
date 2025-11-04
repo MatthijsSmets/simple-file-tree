@@ -1,7 +1,8 @@
-<app-tree-item
-  #elements
-  *ngFor="let item of items"
-  [parentTree]="this"
-  [item]="item"
-  [style]="options.styles?.all">
-</app-tree-item>
+@for (item of items; track $index) {
+  <app-tree-item
+    #elements
+    [parentTree]="this"
+    [item]="item"
+    [style]="options.styles?.all">
+  </app-tree-item>
+}

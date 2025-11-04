@@ -1,14 +1,16 @@
 import {Component, Input} from '@angular/core';
 import {FileTreeItem} from "../models/file-tree-item";
-import {CommonModule} from '@angular/common';
 import type {NgSimpleFileTree} from "../ng-simple-file-tree.component";
+import {NgClass} from "@angular/common";
 
 @Component({
-  standalone: true,
   selector: 'app-tree-icon',
+  standalone: true,
   templateUrl: './tree-icon.component.html',
   styleUrl: './tree-icon.component.css',
-  imports: [CommonModule]
+  imports: [
+    NgClass
+  ]
 })
 export class TreeIconComponent {
   @Input({required: true}) parentTree!: NgSimpleFileTree;

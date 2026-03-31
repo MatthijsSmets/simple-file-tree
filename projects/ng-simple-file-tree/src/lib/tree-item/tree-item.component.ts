@@ -19,8 +19,6 @@ export class TreeItemComponent implements OnInit {
   @ViewChild('element') element!: ElementRef<HTMLElement>;
   @ViewChild('childElement') childElement!: TreeItemComponent;
   justClicked: boolean = false;
-  protected visible: boolean = true;
-
 
   ngOnInit(): void {
     this.subscribeToItemService();
@@ -99,9 +97,5 @@ export class TreeItemComponent implements OnInit {
 
   shouldEnableHorizontalLine(item: FileTreeItem): boolean {
     return !!((this.parentTree.options.hierarchyLines?.vertical || this.parentTree.options.hierarchyLines?.horizontal) && item.currentlySelected);
-  }
-
-  setVisible(value: boolean): void {
-    this.visible = value;
   }
 }

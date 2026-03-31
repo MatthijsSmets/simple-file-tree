@@ -1,4 +1,6 @@
-@if (visible) {
+<!-- I am not sure, but it may be wise to hide TreeItemComponent from 
+     users of this library. Users should interact using FileTreeItem. -->
+@if (item.visible) {
   <div #element>
     <div
       class="sft-item"

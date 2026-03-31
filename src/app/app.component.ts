@@ -3,16 +3,16 @@ import {NgSimpleFileTree} from "../../projects/ng-simple-file-tree/src/lib/ng-si
 import {FileTreeOptions} from "../../projects/ng-simple-file-tree/src/lib/models/file-tree-options";
 import {CreateTreeItem} from "../../projects/ng-simple-file-tree/src/lib/models/create-tree-item";
 import {FileTreeItem} from "../../projects/ng-simple-file-tree/src/lib/models/file-tree-item";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-root',
-    imports: [NgSimpleFileTree],
+    imports: [NgSimpleFileTree, FormsModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
 export class AppComponent {
   @ViewChild('tree') tree!: NgSimpleFileTree;
-  title = 'simple-file-tree';
 
   treeItems = [
     {
@@ -66,6 +66,8 @@ export class AppComponent {
       all: 'font-family: consolas',
     }
   }
+
+  protected pathComponentIndexesOfNodeToHide: string = '';
 
   determineIcon(value: CreateTreeItem): string {
     return 'bi bi-1-circle-fill blue'
@@ -176,5 +178,23 @@ export class AppComponent {
 
   determineFont(item: CreateTreeItem): string {
     return 'red'
+  }
+
+  hide() {
+    const pathComponentIndexes = this.pathComponentIndexesOfNodeToHide.split(',').map((s) => +s);
+    console.log(`Going to hide: ${pathComponentIndexes}`);
+    const from: FileTreeItem = this.tree.items[pathComponentIndexes[0]];
+    const remainingIndexes: number[] = pathComponentIndexes.slice(1);
+    this.hidePath(from, remainingIndexes);
+  }
+
+  private hidePath(from: FileTreeItem, indexes: number[]) {
+    if (indexes.length === 0) {
+      from.visible = false;
+    } else {
+      const child = from.children![indexes[0]];
+      const remainingIndexes = indexes.slice(1);
+      this.hidePath(child, remainingIndexes);
+    }
   }
 }

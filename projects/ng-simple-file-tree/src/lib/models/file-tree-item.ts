@@ -49,6 +49,7 @@ export class FileTreeItem {
   parent?: FileTreeItem;
   index?: number;
 
+  visible: boolean = true;
   currentlySelected: boolean = false;
   expanded!: boolean;
   selectedChildIndex: number = -1;
